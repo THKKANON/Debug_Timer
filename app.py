@@ -31,17 +31,21 @@ def init_db():
               start_time TEXT,
               stop_time TEXT,
               debugging_time TEXT,
-              reason TEXT)''')
+              reason TEXT,
+              person TEXT,
+              tech TEXT)''')
     conn.commit()
     conn.close()
 
 @app.route('/start', methods=['POST'])
 def start():
+    tech = request.form.get('tech', '')
+    person = request.form.get('person', '')
     reason = request.form.get('reason', '')
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("INSERT INTO time_log (start_time, reason) VALUES (?, ?)", (now, reason))
+    c.execute("INSERT INTO time_log (start_time, reason, person, tech) VALUES (?, ?, ?, ?)", (now, reason, person, tech))
     conn.commit()
     conn.close()
     return redirect(url_for('main'))
