@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Debugging Timmer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light py-5">
+    <div class="container">
+        <h1 class="text-center mb-4">Debugging Timmer</h1>
+        <!-- 사유 입력 및 Start 버튼 -->
+        <div class="text-center mb-4">
+            <form action="/start" method="post" class="d-inline-flex align-items-center gap-2">
+                <input type="text" name="tech" placeholder="Band를 입력하세요" required class="form-control w-auto">
+                <!-- 사람 이름 드롭다운 -->
+                <select id="person" name="person" class="form-select w-auto" required>
+                <option value="">선택해주세요</option>
+                <option value="김승연">김승연</option>
+                <option value="최주연">최주연</option>
+                <option value="이학철">이학철</option>
+                <option value="김태훈">김태훈</option>
+                <option value="이규림">이규림</option>
+                <option value="김희연">김희연</option>
+                <option value="정구윤">정구윤</option>
+                <option value="김건수">김건수</option>
+                <option value="이성수">이성수</option>
+                <option value="김미리">김미리</option>
+                <option value="김혜원">김혜원</option>
+                <option value="김예나">김예나</option>
+                <option value="김성훈">김성훈</option>
+                <option value="최은지">최은지</option>
+                <option value="원정연">원정연</option>
+                <option value="강태준">강태준</option>
+                </select>
+
+                <select id="reason" name="reason" class="form-select w-auto" required>
+                <option value="">선택해주세요</option>
+                <option value="Power Target Over (Binary 변경)">Power Target Over (Binary 변경)</option>
+                <option value="Power Target Over (샘플 변경)">Power Target Over (샘플 변경)</option>
+                <option value="Target Power 변경 (고객사 요청)">Target Power 변경 (고객사 요청)</option>
+                <option value="시료사양 변경">시료사양 변경</option>
+                <option value="SAR Design Target Over (Binary 변경)">SAR Design Target Over (Binary 변경)</option>
+                <option value="SAR Design Target Over (샘플 변경)">SAR Design Target Over (샘플 변경)</option>
+                <option value="동시방사 이슈">동시방사 이슈</option>
+                <option value="시험항목 취소">시험항목 취소</option>
+                <option value="EMC / RF 이슈 (Binary 변경)">EMC / RF 이슈 (Binary 변경)</option>
+                <option value="EMC / RF 이슈 (샘플 변경)">EMC / RF 이슈 (샘플 변경)</option>
+                <option value="Spot Check / 편차발생 재시험 (Binary 변경)">Spot Check / 편차발생 재시험 (Binary 변경)</option>
+                <option value="Spot Check / 편차발생 재시험 (샘플 변경)">Spot Check / 편차발생 재시험 (샘플 변경)</option>
+                <option value="기타">기타</option>
+                </select>
+
+                <input type="text" name="remark" placeholder="사유를 입력하세요" required class="form-control w-auto">
+
+                <button type="submit" class="btn btn-success">Start</button>
+            </form>
+
+            <div class = "text-center mt-3">
+                <a href="/stop" class="btn btn-danger ms-3">Stop</a>
+                <!-- 엑셀 다운로드 버튼 -->
+                <a href="/export" class="btn btn-primary ms-3">엑셀 다운로드</a>
+                <!-- 프로젝트 및 챔버 변경 버튼 -->
+                <a href="/reset" class="btn btn-secondary ms-3">프로젝트 or 챔버 변경</a>
+            </div>
+            
+            </div>
+                <!-- 기록 테이블 -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">기록 내역</h5>
+                    <div class="table-responsive">
+                    <table class="table table-striped table-bordered align-middle text-center">
+                    <thead class="table-light">
+                    <tr>
+                    <th>Band</th>
+                    <th>Start Time</th>
+                    <th>Stop Time</th>
+                    <th>Duration</th>
+                    <th>Reason</th>
+                    <th>Name</th>
+                    <th>Remark</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                                            {% for log in logs %}
+                    <tr>
+                    <td>{{ log[6] }}</td>
+                    <td>{{ log[1] }}</td>
+                    <td>{{ log[2] or '진행중...' }}</td>
+                    <td>{{ log[3] or '-' }}</td>
+                    <td>{{ log[4] or '-' }}</td>
+                    <td>{{ log[5] or '-' }}</td>
+                    <td>{{ log[7] or '-' }}</td>
+                    </tr>
+                                            {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
